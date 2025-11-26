@@ -1,0 +1,272 @@
+<main class="min-h-screen bg-linear-to-br from-surface-950 via-surface-900 to-surface-950 p-8">
+  <!-- Header -->
+  <div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-4">
+        <a
+          routerLink="/"
+          class="p-2 rounded-xl text-surface-500 hover:text-surface-300 hover:bg-surface-800/50 transition-all"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </a>
+        <h1 class="text-2xl font-semibold text-surface-100">Bookmarks</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button
+          (click)="openAddFolder()"
+          class="px-4 py-2 text-sm text-surface-400 hover:text-surface-200 hover:bg-surface-800/50 rounded-xl transition-all"
+        >
+          New Folder
+        </button>
+        <button
+          (click)="openAddBookmark()"
+          class="px-4 py-2 text-sm bg-accent-500 hover:bg-accent-600 text-white rounded-xl transition-all"
+        >
+          Add Bookmark
+        </button>
+      </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 mb-6 text-sm">
+      <button
+        (click)="navigateToFolder(null)"
+        class="text-surface-400 hover:text-surface-200 transition-colors"
+        [class.text-surface-200]="!bookmarksService.selectedFolderId()"
+      >
+        All Bookmarks
+      </button>
+      @if (bookmarksService.selectedFolderId()) {
+      <span class="text-surface-600">/</span>
+      @for (folder of bookmarksService.folders(); track folder.id) { @if (folder.id ===
+      bookmarksService.selectedFolderId()) {
+      <span class="text-surface-200">{{ folder.name }}</span>
+      } } }
+    </div>
+
+    <!-- Folders -->
+    @if (bookmarksService.getSubfolders(bookmarksService.selectedFolderId()).length > 0) {
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      @for (folder of bookmarksService.getSubfolders(bookmarksService.selectedFolderId()); track
+      folder.id) {
+      <div
+        class="group relative bg-surface-900/30 border border-surface-800/50 rounded-xl p-4 hover:bg-surface-800/40 transition-all cursor-pointer"
+        (click)="navigateToFolder(folder.id)"
+      >
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-surface-500" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+          </svg>
+          <span class="text-surface-200 text-sm truncate">{{ folder.name }}</span>
+        </div>
+        <button
+          (click)="deleteFolder(folder.id); $event.stopPropagation()"
+          class="absolute top-2 right-2 p-1.5 rounded-lg text-surface-600 hover:text-red-400 hover:bg-surface-800 opacity-0 group-hover:opacity-100 transition-all"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        </button>
+      </div>
+      }
+    </div>
+    }
+
+    <!-- Bookmarks -->
+    @if (bookmarksService.getBookmarksByFolder(bookmarksService.selectedFolderId()).length > 0) {
+    <div class="space-y-2">
+      @for (bookmark of bookmarksService.getBookmarksByFolder(bookmarksService.selectedFolderId());
+      track bookmark.id) {
+      <a
+        [href]="bookmark.url"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex items-center gap-4 p-4 bg-surface-900/30 border border-surface-800/50 rounded-xl hover:bg-surface-800/40 transition-all"
+      >
+        <img
+          [src]="bookmarksService.getFaviconUrl(bookmark.url)"
+          [alt]="bookmark.title"
+          class="w-6 h-6 rounded"
+          (error)="$any($event.target).style.display = 'none'"
+        />
+        <div class="flex-1 min-w-0">
+          <h3 class="text-surface-200 group-hover:text-accent-400 truncate transition-colors">
+            {{ bookmark.title }}
+          </h3>
+          <p class="text-xs text-surface-500 truncate">{{ bookmark.url }}</p>
+        </div>
+        <button
+          (click)="deleteBookmark(bookmark.id); $event.preventDefault(); $event.stopPropagation()"
+          class="p-2 rounded-lg text-surface-600 hover:text-red-400 hover:bg-surface-800 opacity-0 group-hover:opacity-100 transition-all"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        </button>
+      </a>
+      }
+    </div>
+    } @else if (bookmarksService.getSubfolders(bookmarksService.selectedFolderId()).length === 0) {
+    <div class="text-center py-12">
+      <svg
+        class="w-12 h-12 mx-auto text-surface-700 mb-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+          d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+        />
+      </svg>
+      <p class="text-surface-500 mb-4">No bookmarks yet</p>
+      <button
+        (click)="openAddBookmark()"
+        class="px-4 py-2 text-sm bg-accent-500 hover:bg-accent-600 text-white rounded-xl transition-all"
+      >
+        Add your first bookmark
+      </button>
+    </div>
+    }
+
+    <!-- Import/Export -->
+    <div class="flex items-center justify-center gap-4 mt-8 pt-8 border-t border-surface-800/50">
+      <button
+        (click)="exportBookmarks()"
+        class="px-4 py-2 text-sm text-surface-400 hover:text-surface-200 hover:bg-surface-800/50 rounded-xl transition-all"
+      >
+        Export Bookmarks
+      </button>
+      <label
+        class="px-4 py-2 text-sm text-surface-400 hover:text-surface-200 hover:bg-surface-800/50 rounded-xl transition-all cursor-pointer"
+      >
+        Import Bookmarks
+        <input type="file" accept=".json" (change)="importBookmarks($event)" class="hidden" />
+      </label>
+    </div>
+  </div>
+
+  <!-- Add Bookmark Dialog -->
+  @if (showAddBookmark()) {
+  <div
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+    (click)="closeAddBookmark()"
+  >
+    <div
+      class="bg-surface-900 border border-surface-700 rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl"
+      (click)="$event.stopPropagation()"
+    >
+      <h3 class="text-lg font-medium text-surface-100 mb-4">Add Bookmark</h3>
+
+      <form (submit)="addBookmark($event)">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm text-surface-400 mb-1">Title</label>
+            <input
+              type="text"
+              [(ngModel)]="newBookmarkTitle"
+              name="title"
+              placeholder="e.g., My Favorite Site"
+              class="w-full px-4 py-2.5 bg-surface-800 border border-surface-700 rounded-xl text-surface-100 placeholder:text-surface-500 focus:outline-none focus:ring-2 focus:ring-accent-500/50"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm text-surface-400 mb-1">URL</label>
+            <input
+              type="url"
+              [(ngModel)]="newBookmarkUrl"
+              name="url"
+              placeholder="https://example.com"
+              class="w-full px-4 py-2.5 bg-surface-800 border border-surface-700 rounded-xl text-surface-100 placeholder:text-surface-500 focus:outline-none focus:ring-2 focus:ring-accent-500/50"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button
+            type="button"
+            (click)="closeAddBookmark()"
+            class="flex-1 px-4 py-2.5 bg-surface-800 hover:bg-surface-700 border border-surface-700 rounded-xl text-surface-300 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="flex-1 px-4 py-2.5 bg-accent-500 hover:bg-accent-600 rounded-xl text-white font-medium transition-colors"
+          >
+            Add Bookmark
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+
+  <!-- Add Folder Dialog -->
+  @if (showAddFolder()) {
+  <div
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+    (click)="closeAddFolder()"
+  >
+    <div
+      class="bg-surface-900 border border-surface-700 rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl"
+      (click)="$event.stopPropagation()"
+    >
+      <h3 class="text-lg font-medium text-surface-100 mb-4">New Folder</h3>
+
+      <form (submit)="addFolder($event)">
+        <div>
+          <label class="block text-sm text-surface-400 mb-1">Folder Name</label>
+          <input
+            type="text"
+            [(ngModel)]="newFolderName"
+            name="folderName"
+            placeholder="e.g., Work, Personal, News"
+            class="w-full px-4 py-2.5 bg-surface-800 border border-surface-700 rounded-xl text-surface-100 placeholder:text-surface-500 focus:outline-none focus:ring-2 focus:ring-accent-500/50"
+            required
+          />
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button
+            type="button"
+            (click)="closeAddFolder()"
+            class="flex-1 px-4 py-2.5 bg-surface-800 hover:bg-surface-700 border border-surface-700 rounded-xl text-surface-300 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="flex-1 px-4 py-2.5 bg-accent-500 hover:bg-accent-600 rounded-xl text-white font-medium transition-colors"
+          >
+            Create Folder
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+</main>

@@ -1,0 +1,273 @@
+<main class="min-h-screen bg-linear-to-br from-surface-950 via-surface-900 to-surface-950 p-8">
+  <div class="max-w-2xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-8">
+      <a
+        routerLink="/"
+        class="p-2 rounded-xl text-surface-500 hover:text-surface-300 hover:bg-surface-800/50 transition-all"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </a>
+      <h1 class="text-2xl font-semibold text-surface-100">Settings</h1>
+    </div>
+
+    <div class="space-y-8">
+      <!-- Profile -->
+      <section class="bg-surface-900/30 border border-surface-800/50 rounded-2xl p-6">
+        <h2 class="text-lg font-medium text-surface-200 mb-4">Profile</h2>
+        <div>
+          <label class="block text-sm text-surface-400 mb-2">Your Name</label>
+          <input
+            type="text"
+            [(ngModel)]="userName"
+            placeholder="Enter your name"
+            class="w-full px-4 py-2.5 bg-surface-800 border border-surface-700 rounded-xl text-surface-100 placeholder:text-surface-500 focus:outline-none focus:ring-2 focus:ring-accent-500/50"
+          />
+          <p class="text-xs text-surface-500 mt-2">Used for personalized greetings</p>
+        </div>
+      </section>
+
+      <!-- Appearance -->
+      <section class="bg-surface-900/30 border border-surface-800/50 rounded-2xl p-6">
+        <h2 class="text-lg font-medium text-surface-200 mb-4">Appearance</h2>
+        <div>
+          <label class="block text-sm text-surface-400 mb-3">Theme</label>
+          <div class="flex gap-3">
+            <button
+              (click)="setTheme('dark')"
+              class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border transition-all"
+              [class.bg-surface-800]="settingsService.theme() === 'dark'"
+              [class.border-accent-500]="settingsService.theme() === 'dark'"
+              [class.border-surface-700]="settingsService.theme() !== 'dark'"
+              [class.text-surface-200]="settingsService.theme() === 'dark'"
+              [class.text-surface-400]="settingsService.theme() !== 'dark'"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                />
+              </svg>
+              Dark
+            </button>
+            <button
+              (click)="setTheme('light')"
+              class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border transition-all"
+              [class.bg-surface-800]="settingsService.theme() === 'light'"
+              [class.border-accent-500]="settingsService.theme() === 'light'"
+              [class.border-surface-700]="settingsService.theme() !== 'light'"
+              [class.text-surface-200]="settingsService.theme() === 'light'"
+              [class.text-surface-400]="settingsService.theme() !== 'light'"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                />
+              </svg>
+              Light
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Search -->
+      <section class="bg-surface-900/30 border border-surface-800/50 rounded-2xl p-6">
+        <h2 class="text-lg font-medium text-surface-200 mb-4">Search</h2>
+        <div>
+          <label class="block text-sm text-surface-400 mb-3">Default Search Engine</label>
+          <div class="flex gap-3">
+            @for (engine of ['google', 'duckduckgo', 'bing']; track engine) {
+            <button
+              (click)="setSearchEngine($any(engine))"
+              class="flex-1 px-4 py-3 rounded-xl border capitalize transition-all"
+              [class.bg-surface-800]="settingsService.searchEngine() === engine"
+              [class.border-accent-500]="settingsService.searchEngine() === engine"
+              [class.border-surface-700]="settingsService.searchEngine() !== engine"
+              [class.text-surface-200]="settingsService.searchEngine() === engine"
+              [class.text-surface-400]="settingsService.searchEngine() !== engine"
+            >
+              {{ engine === 'duckduckgo' ? 'DuckDuckGo' : engine }}
+            </button>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- Weather -->
+      <section class="bg-surface-900/30 border border-surface-800/50 rounded-2xl p-6">
+        <h2 class="text-lg font-medium text-surface-200 mb-4">Weather</h2>
+        <div>
+          <label class="block text-sm text-surface-400 mb-2">Location</label>
+          @if (settingsService.weatherLocation(); as location) {
+          <div class="flex items-center justify-between p-3 bg-surface-800 rounded-xl">
+            <span class="text-surface-200">
+              {{ location.city || 'Current location' }}
+              @if (location.country) {
+              <span class="text-surface-500">, {{ location.country }}</span>
+              }
+            </span>
+            <button
+              (click)="clearWeatherLocation()"
+              class="text-surface-500 hover:text-red-400 transition-colors"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          } @else {
+          <button
+            (click)="openCitySearch()"
+            class="w-full px-4 py-3 bg-surface-800 hover:bg-surface-700 border border-surface-700 rounded-xl text-surface-400 text-left transition-colors"
+          >
+            Search for a city...
+          </button>
+          }
+          <p class="text-xs text-surface-500 mt-2">
+            Or allow location access for automatic detection
+          </p>
+        </div>
+      </section>
+
+      <!-- News Sources -->
+      <section class="bg-surface-900/30 border border-surface-800/50 rounded-2xl p-6">
+        <h2 class="text-lg font-medium text-surface-200 mb-4">News Sources</h2>
+        <div class="space-y-3">
+          @for (source of newsService.sources(); track source.id) {
+          <label
+            class="flex items-center justify-between p-3 bg-surface-800/50 rounded-xl cursor-pointer hover:bg-surface-800 transition-colors"
+          >
+            <span class="text-surface-200">{{ source.name }}</span>
+            <div class="relative">
+              <input
+                type="checkbox"
+                [checked]="source.enabled"
+                (change)="toggleNewsSource(source.id)"
+                class="sr-only peer"
+              />
+              <div
+                class="w-11 h-6 bg-surface-700 rounded-full peer peer-checked:bg-accent-500 transition-colors"
+              ></div>
+              <div
+                class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"
+              ></div>
+            </div>
+          </label>
+          }
+        </div>
+      </section>
+
+      <!-- Sections Visibility -->
+      <section class="bg-surface-900/30 border border-surface-800/50 rounded-2xl p-6">
+        <h2 class="text-lg font-medium text-surface-200 mb-4">Home Sections</h2>
+        <div class="space-y-3">
+          @for (section of sections; track section.key) {
+          <label
+            class="flex items-center justify-between p-3 bg-surface-800/50 rounded-xl cursor-pointer hover:bg-surface-800 transition-colors"
+          >
+            <span class="text-surface-200">{{ section.label }}</span>
+            <div class="relative">
+              <input
+                type="checkbox"
+                [checked]="getSectionValue(section.key)"
+                (change)="toggleSection(section.key)"
+                class="sr-only peer"
+              />
+              <div
+                class="w-11 h-6 bg-surface-700 rounded-full peer peer-checked:bg-accent-500 transition-colors"
+              ></div>
+              <div
+                class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"
+              ></div>
+            </div>
+          </label>
+          }
+        </div>
+      </section>
+
+      <!-- Danger Zone -->
+      <section class="bg-red-900/10 border border-red-900/30 rounded-2xl p-6">
+        <h2 class="text-lg font-medium text-red-400 mb-4">Danger Zone</h2>
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-surface-200">Reset All Settings</p>
+            <p class="text-sm text-surface-500">This will reset all preferences to defaults</p>
+          </div>
+          <button
+            (click)="resetAllSettings()"
+            class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-xl transition-colors"
+          >
+            Reset
+          </button>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <div class="text-center text-sm text-surface-600 py-4">
+        <p>BrowsePaddle • Your personal home hub</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- City Search Dialog -->
+  @if (showCitySearch()) {
+  <div
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+    (click)="closeCitySearch()"
+  >
+    <div
+      class="bg-surface-900 border border-surface-700 rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl"
+      (click)="$event.stopPropagation()"
+    >
+      <h3 class="text-lg font-medium text-surface-100 mb-4">Search City</h3>
+
+      <form (submit)="searchCity($event)">
+        <div>
+          <input
+            type="text"
+            [(ngModel)]="citySearchQuery"
+            name="city"
+            placeholder="Enter city name..."
+            class="w-full px-4 py-2.5 bg-surface-800 border border-surface-700 rounded-xl text-surface-100 placeholder:text-surface-500 focus:outline-none focus:ring-2 focus:ring-accent-500/50"
+            required
+            autofocus
+          />
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button
+            type="button"
+            (click)="closeCitySearch()"
+            class="flex-1 px-4 py-2.5 bg-surface-800 hover:bg-surface-700 border border-surface-700 rounded-xl text-surface-300 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="flex-1 px-4 py-2.5 bg-accent-500 hover:bg-accent-600 rounded-xl text-white font-medium transition-colors"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+</main>
