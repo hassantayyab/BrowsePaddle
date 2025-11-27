@@ -286,3 +286,4 @@ export class QuickLinksComponent {
     img.style.display = 'none';
   }
 }
+

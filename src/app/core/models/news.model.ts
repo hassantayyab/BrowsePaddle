@@ -35,3 +35,4 @@ export const DEFAULT_NEWS_SOURCES: NewsSource[] = [
     enabled: false,
   },
 ];
+

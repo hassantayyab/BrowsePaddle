@@ -44,3 +44,4 @@ export const WEATHER_CONDITIONS: Record<number, WeatherCondition> = {
   96: { code: 96, description: 'Thunderstorm with slight hail', icon: '⛈️' },
   99: { code: 99, description: 'Thunderstorm with heavy hail', icon: '⛈️' },
 };
+

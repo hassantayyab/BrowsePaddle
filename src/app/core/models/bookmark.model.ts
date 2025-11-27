@@ -13,3 +13,4 @@ export interface BookmarkFolder {
   parentId: string | null;
   order: number;
 }
+

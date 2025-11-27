@@ -31,3 +31,4 @@ export const DEFAULT_SETTINGS: UserSettings = {
   showReadingList: true,
   userName: '',
 };
+
