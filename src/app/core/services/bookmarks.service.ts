@@ -26,7 +26,9 @@ export class BookmarksService {
   });
 
   readonly rootFolders = computed(() => {
-    return this._folders().filter((f) => f.parentId === null).sort((a, b) => a.order - b.order);
+    return this._folders()
+      .filter((f) => f.parentId === null)
+      .sort((a, b) => a.order - b.order);
   });
 
   constructor() {
@@ -87,9 +89,7 @@ export class BookmarksService {
   }
 
   updateFolder(id: string, updates: Partial<Omit<BookmarkFolder, 'id'>>): void {
-    this._folders.update((folders) =>
-      folders.map((f) => (f.id === id ? { ...f, ...updates } : f))
-    );
+    this._folders.update((folders) => folders.map((f) => (f.id === id ? { ...f, ...updates } : f)));
   }
 
   removeFolder(id: string): void {
@@ -154,6 +154,3 @@ export class BookmarksService {
     }
   }
 }
-
-
-

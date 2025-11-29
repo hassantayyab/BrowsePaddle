@@ -5,18 +5,24 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
+    "format": "prettier --write \"src/**/*.{ts,html,css,scss,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,css,scss,json}\"",
+    "prepare": "husky"
   },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.html": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,scss,json}": [
+      "prettier --write"
     ]
   },
   "private": true,
@@ -33,11 +39,24 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@angular-eslint/builder": "^21.0.1",
+    "@angular-eslint/eslint-plugin": "^21.0.1",
+    "@angular-eslint/eslint-plugin-template": "^21.0.1",
+    "@angular-eslint/schematics": "^21.0.1",
+    "@angular-eslint/template-parser": "^21.0.1",
     "@angular/build": "^21.0.1",
     "@angular/cli": "^21.0.1",
     "@angular/compiler-cli": "^21.0.0",
     "@tailwindcss/postcss": "^4.1.17",
+    "@typescript-eslint/eslint-plugin": "^8.48.0",
+    "@typescript-eslint/parser": "^8.48.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "postcss": "^8.5.6",
+    "prettier": "^3.7.2",
     "tailwindcss": "^4.1.17",
     "typescript": "~5.9.2"
   }

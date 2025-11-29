@@ -225,7 +225,9 @@ html.light ::-webkit-scrollbar-thumb:hover {
 
 /* Card hover effects */
 .card-hover {
-  transition: transform 0.2s var(--ease-smooth), box-shadow 0.2s var(--ease-smooth);
+  transition:
+    transform 0.2s var(--ease-smooth),
+    box-shadow 0.2s var(--ease-smooth);
 }
 
 .card-hover:hover {

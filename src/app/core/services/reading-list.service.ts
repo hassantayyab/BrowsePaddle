@@ -77,21 +77,13 @@ export class ReadingListService {
 
   markAsRead(id: string): void {
     this._items.update((items) =>
-      items.map((item) =>
-        item.id === id
-          ? { ...item, isRead: true, readAt: Date.now() }
-          : item
-      )
+      items.map((item) => (item.id === id ? { ...item, isRead: true, readAt: Date.now() } : item))
     );
   }
 
   markAsUnread(id: string): void {
     this._items.update((items) =>
-      items.map((item) =>
-        item.id === id
-          ? { ...item, isRead: false, readAt: undefined }
-          : item
-      )
+      items.map((item) => (item.id === id ? { ...item, isRead: false, readAt: undefined } : item))
     );
   }
 
@@ -123,6 +115,3 @@ export class ReadingListService {
     return new Date(timestamp).toLocaleDateString();
   }
 }
-
-
-

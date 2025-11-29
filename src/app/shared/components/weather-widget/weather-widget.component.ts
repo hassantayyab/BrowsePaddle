@@ -15,14 +15,21 @@ import { WeatherService } from '../../../core/services';
           title="Refresh"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
           </svg>
         </button>
       </div>
 
       @if (weatherService.loading() && !weatherService.weather()) {
         <div class="flex items-center justify-center h-24">
-          <div class="w-6 h-6 border-2 border-surface-600 border-t-accent-500 rounded-full animate-spin"></div>
+          <div
+            class="w-6 h-6 border-2 border-surface-600 border-t-accent-500 rounded-full animate-spin"
+          ></div>
         </div>
       } @else if (weatherService.error() && !weatherService.weather()) {
         <div class="text-center py-4">
@@ -89,14 +96,14 @@ export class WeatherWidgetComponent implements OnInit {
 
   getWeatherIcon(code: number, isDay: boolean): string {
     const condition = this.weatherService.getWeatherCondition(code);
-    
+
     // Adjust icons for night time
     if (!isDay) {
       if (code === 0) return '🌙';
       if (code === 1) return '🌙';
       if (code === 2) return '☁️';
     }
-    
+
     return condition.icon;
   }
 
@@ -104,6 +111,3 @@ export class WeatherWidgetComponent implements OnInit {
     return this.weatherService.getWeatherCondition(code).description;
   }
 }
-
-
-

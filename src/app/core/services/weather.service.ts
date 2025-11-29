@@ -84,7 +84,9 @@ export class WeatherService {
         this._loading.set(false);
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            this._error.set('Location access denied. Please enable location or set a city in settings.');
+            this._error.set(
+              'Location access denied. Please enable location or set a city in settings.'
+            );
             break;
           case error.POSITION_UNAVAILABLE:
             this._error.set('Location unavailable');
@@ -106,9 +108,11 @@ export class WeatherService {
     this._error.set(null);
 
     this.http
-      .get<GeocodingResponse>(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1`)
+      .get<GeocodingResponse>(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1`
+      )
       .pipe(
-        catchError((err) => {
+        catchError((_err) => {
           this._error.set('Failed to search for city');
           this._loading.set(false);
           return of(null);
@@ -138,9 +142,7 @@ export class WeatherService {
       .get<GeocodingResponse>(
         `https://geocoding-api.open-meteo.com/v1/search?name=${location.latitude.toFixed(2)},${location.longitude.toFixed(2)}&count=1`
       )
-      .pipe(
-        catchError(() => of(null))
-      )
+      .pipe(catchError(() => of(null)))
       .subscribe((response) => {
         if (response?.results?.length) {
           location.city = response.results[0].name;
@@ -169,7 +171,8 @@ export class WeatherService {
             humidity: response.current.relative_humidity_2m,
             windSpeed: Math.round(response.current.wind_speed_10m),
             isDay: response.current.is_day === 1,
-            location: location.city || `${location.latitude.toFixed(2)}, ${location.longitude.toFixed(2)}`,
+            location:
+              location.city || `${location.latitude.toFixed(2)}, ${location.longitude.toFixed(2)}`,
             updatedAt: Date.now(),
           };
 
@@ -177,7 +180,7 @@ export class WeatherService {
           this.storage.set(StorageKey.WeatherCache, weatherData);
           this._loading.set(false);
         }),
-        catchError((err) => {
+        catchError((_err) => {
           this._error.set('Failed to fetch weather data');
           this._loading.set(false);
           return of(null);
@@ -196,6 +199,3 @@ export class WeatherService {
     this.fetchWeather();
   }
 }
-
-
-

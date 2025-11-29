@@ -15,14 +15,21 @@ import { NewsService } from '../../../core/services';
           title="Refresh"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
           </svg>
         </button>
       </div>
 
       @if (newsService.loading() && newsService.news().length === 0) {
         <div class="flex items-center justify-center h-24">
-          <div class="w-6 h-6 border-2 border-surface-600 border-t-accent-500 rounded-full animate-spin"></div>
+          <div
+            class="w-6 h-6 border-2 border-surface-600 border-t-accent-500 rounded-full animate-spin"
+          ></div>
         </div>
       } @else if (newsService.error() && newsService.news().length === 0) {
         <div class="text-center py-4">
@@ -41,14 +48,11 @@ import { NewsService } from '../../../core/services';
       } @else {
         <div class="space-y-3 max-h-64 overflow-y-auto pr-1 scrollbar-thin">
           @for (item of newsService.news().slice(0, 5); track item.id) {
-            <a
-              [href]="item.url"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="block group"
-            >
+            <a [href]="item.url" target="_blank" rel="noopener noreferrer" class="block group">
               <article class="p-2 -mx-2 rounded-lg hover:bg-surface-800/30 transition-colors">
-                <h3 class="text-sm text-surface-200 group-hover:text-accent-400 line-clamp-2 transition-colors">
+                <h3
+                  class="text-sm text-surface-200 group-hover:text-accent-400 line-clamp-2 transition-colors"
+                >
                   {{ item.title }}
                 </h3>
                 <div class="flex items-center gap-2 mt-1.5 text-xs text-surface-500">
@@ -102,6 +106,3 @@ export class NewsFeedComponent implements OnInit {
     this.newsService.refresh();
   }
 }
-
-
-

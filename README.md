@@ -52,6 +52,23 @@ npm run build
 # Output in dist/browse-paddle
 ```
 
+### Code Quality
+
+```bash
+# Lint code
+npm run lint
+
+# Lint and auto-fix issues
+npm run lint:fix
+
+# Format code with Prettier
+npm run format
+```
+
+**Auto-formatting on save** is enabled in VSCode. Install recommended extensions for the best experience.
+
+**Pre-commit hooks** automatically lint and format staged files before commit. See [`LINTING_GUIDE.md`](./LINTING_GUIDE.md) for details.
+
 ## Project Structure
 
 ```

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SettingsService } from '../../../core/services';
 import { SearchEngine } from '../../../core/models';
@@ -96,6 +96,3 @@ export class SearchBarComponent {
     }
   }
 }
-
-
-

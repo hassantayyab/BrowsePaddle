@@ -1,0 +1,18 @@
+# dependencies
+node_modules
+
+# production
+dist
+.angular
+
+# misc
+.DS_Store
+*.log
+coverage
+
+# cache
+.eslintcache
+.npm
+.yarn
+
+

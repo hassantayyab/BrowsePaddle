@@ -60,9 +60,7 @@ export class NewsService {
     this._error.set(null);
 
     const requests = enabledSources.map((source) =>
-      this.fetchFeed(source).pipe(
-        catchError(() => of([]))
-      )
+      this.fetchFeed(source).pipe(catchError(() => of([])))
     );
 
     forkJoin(requests).subscribe({
@@ -149,6 +147,3 @@ export class NewsService {
     return date.toLocaleDateString();
   }
 }
-
-
-

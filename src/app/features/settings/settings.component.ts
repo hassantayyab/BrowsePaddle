@@ -2,9 +2,14 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { SettingsService, WeatherService, NewsService } from '../../core/services';
-import { SearchEngine, Theme, UserSettings } from '../../core/models';
+import { SearchEngine, Theme } from '../../core/models';
 
-type SectionKey = 'showWeather' | 'showNews' | 'showQuickLinks' | 'showBookmarks' | 'showReadingList';
+type SectionKey =
+  | 'showWeather'
+  | 'showNews'
+  | 'showQuickLinks'
+  | 'showBookmarks'
+  | 'showReadingList';
 
 interface SectionConfig {
   key: SectionKey;

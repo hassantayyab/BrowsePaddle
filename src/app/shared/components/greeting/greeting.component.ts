@@ -8,13 +8,16 @@ import { SettingsService } from '../../../core/services';
   template: `
     <div class="text-center space-y-2">
       <p class="text-lg text-surface-400 dark:text-surface-500">
-        {{ currentDate() | date : 'EEEE, MMMM d' }}
+        {{ currentDate() | date: 'EEEE, MMMM d' }}
       </p>
       <h1 class="text-5xl md:text-6xl font-light tracking-tight">
         {{ currentTime() }}
       </h1>
       <p class="text-xl md:text-2xl text-surface-300 dark:text-surface-400 mt-4">
-        {{ greeting() }}@if (userName()) {<span class="text-surface-100 dark:text-surface-200">, {{ userName() }}</span>}
+        {{ greeting() }}
+        @if (userName()) {
+          <span class="text-surface-100 dark:text-surface-200">, {{ userName() }}</span>
+        }
       </p>
     </div>
   `,
@@ -65,6 +68,3 @@ export class GreetingComponent implements OnInit, OnDestroy {
     return 'Good night';
   }
 }
-
-
-

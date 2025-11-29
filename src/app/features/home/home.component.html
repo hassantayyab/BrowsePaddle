@@ -72,9 +72,9 @@
 
     <!-- Quick Links -->
     @if (settings.showQuickLinks()) {
-    <section class="py-6 animate-fade-in-up" style="animation-delay: 100ms">
-      <app-quick-links />
-    </section>
+      <section class="py-6 animate-fade-in-up" style="animation-delay: 100ms">
+        <app-quick-links />
+      </section>
     }
 
     <!-- Bottom grid: Weather, News, Reading List -->
@@ -83,29 +83,29 @@
     >
       <!-- Weather widget -->
       @if (settings.showWeather()) {
-      <div
-        class="bg-surface-900/30 backdrop-blur-sm border border-surface-800/50 rounded-2xl p-6 card-hover"
-      >
-        <app-weather-widget />
-      </div>
+        <div
+          class="bg-surface-900/30 backdrop-blur-sm border border-surface-800/50 rounded-2xl p-6 card-hover"
+        >
+          <app-weather-widget />
+        </div>
       }
 
       <!-- News feed -->
       @if (settings.showNews()) {
-      <div
-        class="bg-surface-900/30 backdrop-blur-sm border border-surface-800/50 rounded-2xl p-6 card-hover"
-      >
-        <app-news-feed />
-      </div>
+        <div
+          class="bg-surface-900/30 backdrop-blur-sm border border-surface-800/50 rounded-2xl p-6 card-hover"
+        >
+          <app-news-feed />
+        </div>
       }
 
       <!-- Reading List widget -->
       @if (settings.showReadingList()) {
-      <div
-        class="bg-surface-900/30 backdrop-blur-sm border border-surface-800/50 rounded-2xl p-6 card-hover"
-      >
-        <app-reading-list-widget />
-      </div>
+        <div
+          class="bg-surface-900/30 backdrop-blur-sm border border-surface-800/50 rounded-2xl p-6 card-hover"
+        >
+          <app-reading-list-widget />
+        </div>
       }
     </section>
   </div>

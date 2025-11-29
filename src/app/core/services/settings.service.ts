@@ -77,7 +77,12 @@ export class SettingsService {
     this._settings.update((s) => ({ ...s, userName }));
   }
 
-  toggleSection(section: keyof Pick<UserSettings, 'showWeather' | 'showNews' | 'showQuickLinks' | 'showBookmarks' | 'showReadingList'>): void {
+  toggleSection(
+    section: keyof Pick<
+      UserSettings,
+      'showWeather' | 'showNews' | 'showQuickLinks' | 'showBookmarks' | 'showReadingList'
+    >
+  ): void {
     this._settings.update((s) => ({ ...s, [section]: !s[section] }));
   }
 
@@ -89,6 +94,3 @@ export class SettingsService {
     this._settings.set(DEFAULT_SETTINGS);
   }
 }
-
-
-
