@@ -14,4 +14,3 @@ export const DEFAULT_QUICK_LINKS: QuickLink[] = [
   { id: '5', title: 'Twitter', url: 'https://x.com', order: 4 },
   { id: '6', title: 'LinkedIn', url: 'https://linkedin.com', order: 5 },
 ];
-

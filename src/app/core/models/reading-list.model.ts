@@ -8,4 +8,3 @@ export interface ReadingListItem {
   savedAt: number;
   readAt?: number;
 }
-
